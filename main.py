@@ -11,34 +11,23 @@ import re
 
 """ product_category = int(input(
     "Lütfen bir kategori numarası girin: Ürün kategorileri: \n1- Beyaz Eşya \n2- Ankastre \n3- Elektronik \n4- Isıtma-Soğutma \n5- Küçük Ev Aletleri \n6- Su Arıtma \n7- Tamamlayıcı Ürünler \n"))
-
-
 def switch(product_category):
     switcher = {1: "Beyaz Eşya",
-
                 2:
                 "Ankastre",
-
                 3:
                 "Elektronik",
-
                 4:
                 "Isıtma-Soğutma",
-
                 5:
                 "Küçük Ev Aletleri",
-
                 6:
                 "Su Arıtma",
-
                 7:
                 "Tamamlayıcı ürünler",
                 }
     return switcher.get(product_category, "Yanlış girdi!")
-
-
 product_category = switch(product_category) 
-
 topic_items = BeautifulSoup(requests.get("https://destekvebilgimerkezi.arcelik.com.tr/s/", verify = False).content, 'lxml').findAll('li', {'class': 'topicItem forceTopicFeaturedTopicItem'})
 topic_labels = BeautifulSoup(requests.get("https://destekvebilgimerkezi.arcelik.com.tr/s/", verify = False).content, 'lxml').findAll('div', {'class': 'topicLabel'})
 """
@@ -157,4 +146,3 @@ while(True):
             print('Hamdi: ' + response_greet(user_input))
         else:
             print('Hamdi: ' + bot_response(user_input))
-
