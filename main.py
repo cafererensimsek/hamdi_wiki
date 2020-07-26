@@ -11,15 +11,16 @@ import re
 
 
 user_name = input('Merhaba ben Hamdi. Bana Vikipedi\'deki makalelerde geçen bilgilerle ilgili sorularını sorabilirsin! Adını öğrenebilir miyim: ')
+
 def get_search_link(search_keyword = input("Ne aramak istersin?: ")):
+
     links = []
     #search_keyword = re.sub(r"[^\w\s]", '', search_keyword)
     search_keyword = re.sub(r"\s+", '_', search_keyword)
 
     try:
         search_link = "https://tr.wikipedia.org/w/index.php?search=" + search_keyword + "&title=%C3%96zel%3AAra&go=Git&ns0=1"
-        results = BeautifulSoup(requests.get(search_link).content, 'lxml').findAll(
-        'li', {'class': 'mw-search-result'})
+        results = BeautifulSoup(requests.get(search_link).content, 'lxml').findAll('li', {'class': 'mw-search-result'})
 
         for result in results:
             link = "https://tr.wikipedia.org" + result.find('a')['href']
@@ -31,6 +32,7 @@ def get_search_link(search_keyword = input("Ne aramak istersin?: ")):
         article_link = "https://tr.wikipedia.org/wiki/" + search_keyword
 
     return article_link
+
 
 def get_article(article_link):
     
@@ -98,29 +100,38 @@ def bot_response(user_input):
 
 
 
-
-
-
 exit_loop = ['çıkış', 'kapat', 'bitir', 'güle güle', 'hadi bb']
 
 def create_sentence_list():
+
     try:
         sentence_list = nltk.sent_tokenize(get_article(get_search_link()))
         print("Bilgileri öğrendim, şimdi sorabilirsin!")
     except:
         print("Bir hata oluştu, yeniden dener misin?")
         create_sentence_list()
+
     return sentence_list
 
-sentence_list = create_sentence_list()
 
-while(True):
-    user_input = input("{}: ".format(user_name))
-    if user_input.lower() in exit_loop:
-        print('Hamdi kaçar!')
-        break
-    else:
-        if response_greet(user_input) != None:
-            print('Hamdi: ' + response_greet(user_input))
+
+def begin_chat():
+    
+    while(True):
+        user_input = input("{}: ".format(user_name))
+        if user_input.lower() in exit_loop:
+            print('Hamdi kaçar!')
+            break
+        elif user_input.lower() == "yeni":
+            # TODO fix new query error
+            print("Ending")
+            begin_chat()
         else:
-            print('Hamdi: ' + bot_response(user_input))
+            if response_greet(user_input) != None:
+                print('Hamdi: ' + response_greet(user_input))
+            else:
+                print('Hamdi: ' + bot_response(user_input))
+
+
+sentence_list = create_sentence_list()
+begin_chat()
